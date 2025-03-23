@@ -125,9 +125,19 @@ bool characteristic(const char numString[], int& c)
 //--
 bool mantissa(const char numString[], int& numerator, int& denominator)
 {
+    int base = 1;
+    numerator = 0;
+    int size = arraySizeFinder(numString);
+    int periodIndex = periodIndexFinder(numString);
+    for (int i = size-2; i > periodIndex; i--)
+    {
+        cout << numString[i] << endl;
+        numerator += (numString[i] - 48) * base;
+        base = base * 10;
+    }
     //hard coded return value to make the main() work
-    numerator = 456;
-    denominator = 1000;
+    //numerator = 456;
+    denominator = base;
     return true;
 }
 //--
