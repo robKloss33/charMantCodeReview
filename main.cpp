@@ -12,6 +12,7 @@ using namespace std;
 
 //required function prototypes
 int getEvent(char currentInput);
+bool parse(const char numString[]);
 
 int arraySizeFinder(const char numString[]);
 int periodIndexFinder(const char numString[]);
@@ -89,6 +90,7 @@ int main()
     return 0;
 }
 //--
+
 int getEvent(char currentInput)
 {
     if (currentInput <= '9' && currentInput >= '0')
@@ -104,33 +106,29 @@ int getEvent(char currentInput)
 
 }
 
+bool parse(const char numString[])
+{
+    return true;
+}
+
 int periodIndexFinder(const char numString[]) {
     int i = 0;
-    bool hasBeenFound = false;
-    while (hasBeenFound == false)
+    bool hasbeenFound = false;
+    while (numString[i] != '.')
     {
-        if (numString[i] == '.')
-        {
-            hasBeenFound = true;
-            return i;
-        }
         i++;
     }
-    return 0;
+    return i;
 }
 int arraySizeFinder(const char numString[]) {
-    int i = 0;
-    bool hasBeenFound = false;
-    while (hasBeenFound == false)
+    int i = 0;;
+    while (numString[i] != '\0')
     {
-        if (numString[i] == '\0')
-        {
-            hasBeenFound = true;
-            return i + 1;
-        }
         i++;
     }
-    return 0;
+    if (numString[i] == '\0')
+        i++;
+    return i;
 
 };
 
@@ -157,7 +155,7 @@ bool mantissa(const char numString[], int& numerator, int& denominator)
     int periodIndex = periodIndexFinder(numString);
     for (int i = size-2; i > periodIndex; i--)
     {
-        cout << numString[i] << endl;
+        //cout << numString[i] << endl;
         numerator += (numString[i] - 48) * base;
         base = base * 10;
     }
