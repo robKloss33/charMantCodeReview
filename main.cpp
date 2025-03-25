@@ -7,7 +7,12 @@ using namespace std;
 //leading space and get a digit change state to char and return isValid true,
 //unary operator, leading spaces, decimal point entered, mantissa <-- all states
 
+
+
+
 //required function prototypes
+int getEvent(char currentInput);
+
 int arraySizeFinder(const char numString[]);
 int periodIndexFinder(const char numString[]);
 
@@ -28,6 +33,7 @@ int main()
     int c, n, d;
     //cout << arraySizeFinder(number) << endl;
     //cout << periodIndexFinder(number) << endl;
+    cout << getEvent('p') << endl;
    
     //if both conversions from c-string to integers can take place
     if (characteristic(number, c) && mantissa(number, n, d))
@@ -83,6 +89,20 @@ int main()
     return 0;
 }
 //--
+int getEvent(char currentInput)
+{
+    if (currentInput <= '9' && currentInput >= '0')
+        return 0;
+    else if (currentInput == '-' or currentInput == '+')
+        return 1;
+    else if (currentInput == '.')
+        return 2;
+    else if (currentInput == ' ')
+        return 3;
+    else
+        return 4;
+
+}
 
 int periodIndexFinder(const char numString[]) {
     int i = 0;
