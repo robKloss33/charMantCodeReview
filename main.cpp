@@ -1,6 +1,12 @@
 #include <iostream>
 using namespace std;
 
+//parse(string numstring)
+//string with name of current state
+//get event tyoe function that returns an event string digit space decimal invalid c >= 0 <= 9, spaces =, these are events --- decimal, charcteristic, mantiass, trailing spac
+//leading space and get a digit change state to char and return isValid true,
+//unary operator, leading spaces, decimal point entered, mantissa <-- all states
+
 //required function prototypes
 int arraySizeFinder(const char numString[]);
 int periodIndexFinder(const char numString[]);
