@@ -31,6 +31,32 @@ int main()
     //this c-string, or array of 8 characters, ends with the null terminating character '\0'
     //['1', '2', '3', '.', '4', '5', '6', '\0']
     const char number[] = "123.456";
+
+    //STATES vvvvvvvvvvvvvv
+   //leading spaces = 0
+   //unary opearator = 1
+   //char = 2
+   //decimal entered = 3
+   //matissa = 4
+   //trailing spaces = 5
+   // 
+   //EVENTS vvvvvvvvvvvvvv
+   //digit = 0
+   //unary operator = 1
+   //decimal = 2
+   //space = 3
+   //invalid = 4;
+
+    const char test[] = "123.456";
+    bool valid = parse(test);
+    if (valid == true)
+    {
+        cout << "Valid input" << endl;
+    }
+    else
+    {
+        cout << "Not Valid input" << endl;
+    }
     int c, n, d;
     //cout << arraySizeFinder(number) << endl;
     //cout << periodIndexFinder(number) << endl;
@@ -108,7 +134,147 @@ int getEvent(char currentInput)
 
 bool parse(const char numString[])
 {
-    return true;
+    bool isValid = false;
+    int event = 4;
+    int state = 0;
+    //STATES vvvvvvvvvvvvvv
+    //leading spaces = 0
+    //unary opearator = 1
+    //char = 2
+    //decimal entered = 3
+    //matissa = 4
+    //trailing spaces = 5
+    // 
+    // 
+    // 
+    // 
+    //EVENTS vvvvvvvvvvvvvv
+    //digit = 0
+    //unary operator = 1
+    //decimal = 2
+    //space = 3
+    //invalid = 4;
+
+    //unary operator, leading spaces, decimal point entered, mantissa <-- all states
+
+    for (int i = 0; i < arraySizeFinder(numString) -1; i++)
+    {
+        event = getEvent(numString[i]);
+        cout << "State: " << state << endl;
+        cout << "Event: " << event << endl;
+        cout << endl;
+        if (event == 4)
+        {
+            return false;
+        }
+        if (state == 0)
+        {
+            //leading spaces
+            if (event == 0)
+            {
+                state = 2;
+            }
+            else if (event == 1)
+            {
+                state = 1;
+            }
+            else if (event == 2)
+            {
+                return isValid;
+            }
+
+        }
+        else if (state == 1)
+        {
+            //unary operator
+            if (event == 0)
+            {
+                state = 2;
+            }
+            else if (event == 1)
+            {
+                return false;
+            }
+            else if (event == 2)
+            {
+                return isValid;
+            }
+        }
+        else if (state == 2)
+        {
+            //charasteritic
+            isValid = true;
+            if (event == 0)
+            {
+                state = 2;
+            }
+            else if (event == 1)
+            {
+                return false;
+            }
+            else if (event == 3)
+            {
+                state = 5;
+            }
+            
+        }
+        else if (state == 3)
+        {
+            //decimal entered
+            if (isValid == false)
+            {
+                return false;
+            }
+            else
+            {
+                if (event == 0)
+                {
+                    state = 4;
+                }
+                else if (event == 1)
+                {
+                    return false;
+                }
+                else if (event == 2)
+                {
+                    return false;
+                }
+                else if (event == 3)
+                {
+                    state = 5;
+                }
+            }
+        }
+        else if (state == 4)
+        {
+            //mantissa
+            if (event == 0)
+            {
+                state = 4;
+            }
+            else if (event == 1)
+            {
+                return false;
+            }
+            else if (event == 2)
+            {
+                return false;
+            }
+            else if (event == 3)
+            {
+                state = 5;
+            }
+        }
+        else if (state == 5)
+        {
+            //trailing spaces
+            if (event != 3)
+                return false;
+
+        }
+
+    }
+    return isValid;
 }
 
 int periodIndexFinder(const char numString[]) {
@@ -121,7 +287,7 @@ int periodIndexFinder(const char numString[]) {
     return i;
 }
 int arraySizeFinder(const char numString[]) {
-    int i = 0;;
+    int i = 0;
     while (numString[i] != '\0')
     {
         i++;
