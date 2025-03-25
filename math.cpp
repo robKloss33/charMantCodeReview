@@ -20,11 +20,22 @@ void simplify(int &numerator, int &denominator){
     denominator = denominator / gcd;
 }
 
-bool createCharString(int numerator, int denominator, int len, char result[]){
+bool createCharString(int characteristic, int numerator, int denominator, int len, char result[]){
     if (denominator == 0){
         return false;
     }
 
+    int numDigits = 0;
+    int temp = characteristic;
+    while (temp > 0){
+        temp /= 10;
+        numDigits++;
+    }
+
+    //if the characteristic alone is larger than the allotted amount of characters
+    if(numDigits > len){
+        return false;
+    }
 }
 
 bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len){
@@ -49,7 +60,7 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
         numerator *= -1;
     }
 
-    if(createCharString(numerator, denominator, len, result) == false){
+    if(createCharString(charactersitic, numerator, denominator, len, result) == false){
         return false;
     }
     
