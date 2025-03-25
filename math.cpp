@@ -36,6 +36,17 @@ bool createCharString(int characteristic, int numerator, int denominator, int le
     if(numDigits > len){
         return false;
     }
+
+    if (numerator == 0){
+        for (int i = len - 1; i >= 0; i--){
+            result[i] = (characteristic % 10) + '0';
+            characteristic /= 10;
+        }
+        return true;
+    }
+
+    //implentation of result if numerator != 0
+
 }
 
 bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len){
