@@ -37,15 +37,37 @@ bool createCharString(int characteristic, int numerator, int denominator, int le
         return false;
     }
 
+    temp = characteristic;
     if (numerator == 0){
         for (int i = len - 1; i >= 0; i--){
-            result[i] = (characteristic % 10) + '0';
-            characteristic /= 10;
+            result[i] = (temp % 10) + '0';
+            temp /= 10;
         }
         return true;
     }
 
     //implentation of result if numerator != 0
+    //first put the integers in result
+    int index;
+    temp = characteristic;
+    for(index = 0; index < len - 1 || temp < 0; index++){
+        result[index] = (temp % 10) + '0';
+        temp /= 10;
+    }
+
+    if (index == len - 2){
+        return true;
+    }
+
+    result[index++] = '.';
+    index++;
+
+    for(index; index < len - 1 || numerator == 0; index++){
+        numerator *= 10;
+        result[index] = (numerator / denominator) + '0';
+        numerator %= denominator;
+    }
+    return true;
 
 }
 
@@ -73,11 +95,11 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 
     if(createCharString(charactersitic, numerator, denominator, len, result) == false){
         return false;
+    }else{
+        result[len] = '\0';
+        return true;
     }
     
-    //if len is the amount of characters in result, then the index of len would be one after the last character
-    result[len] = '\0';
-    return true;
 }
 
 bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len){
