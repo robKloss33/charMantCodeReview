@@ -47,7 +47,7 @@ int main()
    //space = 3
    //invalid = 4;
 
-    const char test[] = "123.456";
+    const char test[] = "     -123      ";
     bool valid = parse(test);
     if (valid == true)
     {
@@ -60,7 +60,6 @@ int main()
     int c, n, d;
     //cout << arraySizeFinder(number) << endl;
     //cout << periodIndexFinder(number) << endl;
-    cout << getEvent('p') << endl;
    
     //if both conversions from c-string to integers can take place
     if (characteristic(number, c) && mantissa(number, n, d))
@@ -145,9 +144,6 @@ bool parse(const char numString[])
     //matissa = 4
     //trailing spaces = 5
     // 
-    // 
-    // 
-    // 
     //EVENTS vvvvvvvvvvvvvv
     //digit = 0
     //unary operator = 1
@@ -155,14 +151,13 @@ bool parse(const char numString[])
     //space = 3
     //invalid = 4;
 
-    //unary operator, leading spaces, decimal point entered, mantissa <-- all states
-
     for (int i = 0; i < arraySizeFinder(numString) -1; i++)
     {
         event = getEvent(numString[i]);
-        cout << "State: " << state << endl;
-        cout << "Event: " << event << endl;
-        cout << endl;
+        //testing outputs
+        //cout << "State: " << state << endl;
+        //cout << "Event: " << event << endl;
+        //cout << endl;
         if (event == 4)
         {
             return false;
@@ -212,6 +207,10 @@ bool parse(const char numString[])
             {
                 return false;
             }
+            else if (event == 2)
+            {
+                state = 3;
+            }
             else if (event == 3)
             {
                 state = 5;
@@ -241,7 +240,7 @@ bool parse(const char numString[])
                 }
                 else if (event == 3)
                 {
-                    state = 5;
+                    return false;
                 }
             }
         }
@@ -270,7 +269,6 @@ bool parse(const char numString[])
             //trailing spaces
             if (event != 3)
                 return false;
-
         }
 
     }
@@ -278,13 +276,14 @@ bool parse(const char numString[])
 }
 
 int periodIndexFinder(const char numString[]) {
-    int i = 0;
-    bool hasbeenFound = false;
-    while (numString[i] != '.')
+    for(int i = 0; i < arraySizeFinder(numString);i++)
     {
-        i++;
+        if (numString[i] == '.')
+        {
+            return i;
+        }
     }
-    return i;
+    return arraySizeFinder(numString);
 }
 int arraySizeFinder(const char numString[]) {
     int i = 0;
@@ -301,16 +300,28 @@ int arraySizeFinder(const char numString[]) {
 
 bool characteristic(const char numString[], int& c)
 {
-    int base = 1;
-    c = 0;
-    int periodIndex = periodIndexFinder(numString);
-    for (int i = periodIndex - 1; i >= 0; i--)
+    bool isValid = parse(numString);
+    if (isValid == true)
     {
-        c += (numString[i] - 48) * base;
-        base = base * 10;
+        int base = 1;
+        c = 0;
+        int periodIndex = periodIndexFinder(numString);
+        if (periodIndex == arraySizeFinder(numString))
+        {
+            //prevents reading in '\0' in the case of no period
+            periodIndex--;
+        }
+        for (int i = periodIndex - 1; i >= 0; i--)
+        {
+            //cout << (numString[i] - 48) * base << endl;
+            c += (numString[i] - 48) * base;
+            base = base * 10;
+        }
     }
-    //hard coded return value to make the main() work
-    return true;
+    else
+    {
+        return false;
+    }
 }
 //--
 bool mantissa(const char numString[], int& numerator, int& denominator)
