@@ -67,6 +67,8 @@ bool createCharString(int characteristic, int numerator, int denominator, int le
         result[index] = (numerator / denominator) + '0';
         numerator %= denominator;
     }
+
+    result[len] = '\0';
     return true;
 
 }
@@ -93,12 +95,7 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
         numerator *= -1;
     }
 
-    if(createCharString(charactersitic, numerator, denominator, len, result) == false){
-        return false;
-    }else{
-        result[len] = '\0';
-        return true;
-    }
+    return createCharString(charactersitic, numerator, denominator, len, result);
     
 }
 
@@ -107,9 +104,56 @@ bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int
 }
 
 bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len){
+    int num1 = c1 * d1 + n1;
+    int num2 = c2 * d2 + n2;
+    int numerator = num1 * num2;
+    int denominator = d1 * d2;
+    simplify(numerator, denominator);
 
+    int incNum = numerator;
+    int charactersitic = 0;
+    if(incNum < 0){
+        incNum *= -1;
+    }
+
+    while (incNum >= denominator){
+        incNum -= denominator;
+        charactersitic++;
+    }
+    if(numerator < 0){
+        charactersitic *= -1;
+        numerator *= -1;
+    }
+
+    return createCharString(charactersitic, numerator, denominator, len, result);
 }
 
 bool divide(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len){
+    // dividing by zero returns false
+    if(c2 == 0 && n2 == 0){
+        return false;
+    }
 
+    int num1 = c1 * d1 + n1;
+    int num2 = c2 * d2 + n2;
+    int numerator = num1 * d2;
+    int denominator = num2 * d1;
+    simplify(numerator, denominator);
+
+    int incNum = numerator;
+    int charactersitic = 0;
+    if(incNum < 0){
+        incNum *= -1;
+    }
+
+    while (incNum >= denominator){
+        incNum -= denominator;
+        charactersitic++;
+    }
+    if(numerator < 0){
+        charactersitic *= -1;
+        numerator *= -1;
+    }
+
+    return createCharString(charactersitic, numerator, denominator, len, result);
 }
