@@ -8,8 +8,6 @@ using namespace std;
 //unary operator, leading spaces, decimal point entered, mantissa <-- all states
 
 
-
-
 //required function prototypes
 int getEvent(char currentInput);
 bool parse(const char numString[]);
@@ -30,22 +28,7 @@ int main()
 {
     //this c-string, or array of 8 characters, ends with the null terminating character '\0'
     //['1', '2', '3', '.', '4', '5', '6', '\0']
-    const char number[] = "123.456";
-
-    //STATES vvvvvvvvvvvvvv
-   //leading spaces = 0
-   //unary opearator = 1
-   //char = 2
-   //decimal entered = 3
-   //matissa = 4
-   //trailing spaces = 5
-   // 
-   //EVENTS vvvvvvvvvvvvvv
-   //digit = 0
-   //unary operator = 1
-   //decimal = 2
-   //space = 3
-   //invalid = 4;
+    const char number[] = "-123.456";
 
     const char test[] = "     -123      ";
     bool valid = parse(test);
@@ -313,9 +296,15 @@ bool characteristic(const char numString[], int& c)
         }
         for (int i = periodIndex - 1; i >= 0; i--)
         {
-            //cout << (numString[i] - 48) * base << endl;
-            c += (numString[i] - 48) * base;
-            base = base * 10;
+            if (numString[i] == '-')
+                c *= -1;
+            else
+            {
+                //cout << (numString[i] - 48) * base << endl;
+                c += (numString[i] - 48) * base;
+                base = base * 10;
+            }
+            
         }
     }
     else
