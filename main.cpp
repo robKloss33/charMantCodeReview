@@ -1,11 +1,7 @@
 #include <iostream>
 using namespace std;
 
-//parse(string numstring)
-//string with name of current state
-//get event tyoe function that returns an event string digit space decimal invalid c >= 0 <= 9, spaces =, these are events --- decimal, charcteristic, mantiass, trailing spac
-//leading space and get a digit change state to char and return isValid true,
-//unary operator, leading spaces, decimal point entered, mantissa <-- all states
+//--
 
 
 //required function prototypes
@@ -26,25 +22,17 @@ bool divide(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int l
 
 int main()
 {
+
     //this c-string, or array of 8 characters, ends with the null terminating character '\0'
     //['1', '2', '3', '.', '4', '5', '6', '\0']
-    const char number[] = "-123.456";
+    const char number[] = "123.456";
 
-    const char test[] = "     -123      ";
-    bool valid = parse(test);
-    if (valid == true)
-    {
-        cout << "Valid input" << endl;
-    }
-    else
-    {
-        cout << "Not Valid input" << endl;
-    }
     int c, n, d;
     //cout << arraySizeFinder(number) << endl;
     //cout << periodIndexFinder(number) << endl;
    
     //if both conversions from c-string to integers can take place
+   
     if (characteristic(number, c) && mantissa(number, n, d))
     {
         //do some math with c, n, and d
@@ -284,6 +272,7 @@ int arraySizeFinder(const char numString[]) {
 bool characteristic(const char numString[], int& c)
 {
     bool isValid = parse(numString);
+    bool isNegative = false;
     if (isValid == true)
     {
         int base = 1;
@@ -297,7 +286,7 @@ bool characteristic(const char numString[], int& c)
         for (int i = periodIndex - 1; i >= 0; i--)
         {
             if (numString[i] == '-')
-                c *= -1;
+                isNegative = true;
             else
             {
                 //cout << (numString[i] - 48) * base << endl;
@@ -306,6 +295,11 @@ bool characteristic(const char numString[], int& c)
             }
             
         }
+        if (isNegative)
+        {
+            c *= -1;
+        }
+        return true;
     }
     else
     {
@@ -325,8 +319,6 @@ bool mantissa(const char numString[], int& numerator, int& denominator)
         numerator += (numString[i] - 48) * base;
         base = base * 10;
     }
-    //hard coded return value to make the main() work
-    //numerator = 456;
     denominator = base;
     return true;
 }
