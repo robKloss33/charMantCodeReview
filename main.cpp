@@ -88,53 +88,6 @@ bool mantissa(const char numString[], int& numerator, int& denominator)
     return true;
 }
 //--
-bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
-{
-    //you will have to come up with an algorithm to add the two numbers
-    //hard coded return value to make the main() work
-    result[0] = '4';
-    result[1] = '.';
-    result[2] = '1';
-    result[3] = '6';
-    result[4] = '6';
-    result[5] = '6';
-    result[6] = '6';
-    result[7] = '6';
-    result[8] = '6';
-    result[9] = '\0';
-
-    return true;
-}
-//--
-bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
-{
-    //hard coded return value to make the code compile
-    //you will have to come up with an algorithm to subtract the two numbers
-    return true;
-}
-//--
-bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
-{
-    //hard coded return value to make the code compile
-    //you will have to come up with an algorithm to multiply the two numbers
-    return true;
-}
-//--
-bool divide(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
-{
-    //you will have to come up with an algorithm to divide the two numbers
-    //hard coded return value to make the main() work
-    result[0] = '0';
-    result[1] = '.';
-    result[2] = '5';
-    result[3] = '6';
-    result[4] = '2';
-    result[5] = '5';
-    result[6] = '\0';
-    
-    return true;
-}
-
 int findGCD(int a, int b) {
     while (b != 0) {
         int temp = b;
@@ -159,6 +112,7 @@ bool createCharString(int characteristic, int numerator, int denominator, int le
         return false;
     }
 
+    //finding total number of digits
     int numDigits = 0;
     int temp = characteristic;
     while (temp > 0){
@@ -171,6 +125,7 @@ bool createCharString(int characteristic, int numerator, int denominator, int le
         return false;
     }
 
+    //implementation if the fraction == 0
     temp = characteristic;
     if (numerator == 0){
         for (int i = len - 1; i >= 0; i--){
@@ -192,17 +147,17 @@ bool createCharString(int characteristic, int numerator, int denominator, int le
     if (index == len - 2){
         return true;
     }
-
+    //add the decimal and increment index
     result[index++] = '.';
     index++;
 
+    //add the decimal numbers
     for(index; index < len - 1 || numerator == 0; index++){
         numerator *= 10;
         result[index] = (numerator / denominator) + '0';
         numerator %= denominator;
     }
 
-    result[len] = '\0';
     return true;
 
 }
@@ -214,12 +169,14 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
     int numerator = num1 * d2 + num2 * d1;
     simplify(numerator, denominator);
 
+    //incNum helps finds the chacteristic to be included when calling createCharString
     int incNum = numerator;
     int charactersitic = 0;
     if(incNum < 0){
         incNum *= -1;
     }
 
+    //finding characteristic
     while (incNum >= denominator){
         incNum -= denominator;
         charactersitic++;
@@ -229,7 +186,9 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
         numerator *= -1;
     }
 
-    return createCharString(charactersitic, numerator, denominator, len, result);
+    bool retVal = createCharString(charactersitic, numerator, denominator, len, result);
+    result[len] = '\0';
+    return retVal;
     
 }
 
